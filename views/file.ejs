@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>To-Do List</title>
+  <link href="/css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <div class="box" id="heading">
+    <h1> <%= todayName  %> </h1>
+  </div>
+
+  <!--
+    <div class="box">
+        <% for(var i=0; i<newItemByUser.length ; i++) { %>
+
+      <%  } %> -->
+
+      <div class="box">
+
+  <% newItemByUser.forEach(function(item){ %>
+    <form action="/delete" method="post">
+
+    <div class="item">
+      <input type="checkbox" name="checkbox" value="<%=item._id %>" onchange="this.form.submit()"/>
+      <p> <%= item.name %> </p>
+    </div>
+
+    <input type="hidden" name="listName" value="<%= todayName %>"></input>
+  </form>
+
+  <%      })  %>
+<!-- </div> -->
+
+
+
+  <form class="form" target="/" method="post">
+    <input type="text" name="nextitem" placeholder="Add Item" autocomplete="off" />
+    <button type="submit" name="list" value="<%= todayName %>">+</button>
+  </form>
+
+
+  </div>
+
+
+
+
+
+</body>
+
+</html>
