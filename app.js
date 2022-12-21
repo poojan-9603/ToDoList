@@ -10,7 +10,18 @@ app.set("view engine", "ejs")
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://poojan9603:poojan9603@cluster0.5rejfte.mongodb.net/toDoListV2");
+// mongoose.connect("mongodb+srv://poojan9603:poojan9603@cluster0.5rejfte.mongodb.net/toDoListV2");
+
+mongoose.connect("mongodb://localhost:27017/pineapple");
+
+//
+// mongoose.connect(
+//     process.env.MONGODB_URI,
+//     {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true
+//     }
+// );
 
 const itemsSchema = new mongoose.Schema({
   name: String
@@ -19,15 +30,14 @@ const itemsSchema = new mongoose.Schema({
 const Item = mongoose.model("Item", itemsSchema)
 
 const item1 = new Item({
-  name: "Welcome to the first item"
+  name: "Welcome to my Project"
 })
-
 const item2 = new Item({
-  name: "Welcome to the Second item"
+  name: "Write the note in the box below and press (+) to add it to your List."
 })
 
 const item3 = new Item({
-  name: "Welcome to the Third  item"
+  name: "<== Press this to cancel the point out!"
 })
 
 const defaultItems = [item1, item2, item3];
@@ -84,19 +94,6 @@ res.render("file",   {todayName: result.name,  newItemByUser: result.items})
 
 
 })
-//
-// app.get("/work", function(req, res) {
-//
-//   res.render("file.ejs", {
-//     todayName: "Work List",
-//     newItemByUser: workItemByUser
-//   });
-// })
-//
-// app.post("/work", function(req, responce){
-//   workItemByUser.push(req.body.nextitem);
-//   responce.redirect("/work");
-// })
 
 
 app.post("/", function(req, res) {
@@ -112,9 +109,9 @@ app.post("/", function(req, res) {
     res.redirect("/");
   } else{
     List.findOne({name: listName}, function(err, foundList){
-        foundList.items.push(item);
+      foundList.items.push(item);
         foundList.save();
-        res.redirect("/"+ listName );
+        res.redirect("back"+ listName );
 
 });
   }
@@ -156,3 +153,24 @@ app.listen(3000, function() {
   console.log("The Server is listening on the port 3000");
 
 })
+
+
+
+
+
+
+
+
+//
+// app.get("/work", function(req, res) {
+//
+//   res.render("file.ejs", {
+//     todayName: "Work List",
+//     newItemByUser: workItemByUser
+//   });
+// })
+//
+// app.post("/work", function(req, responce){
+//   workItemByUser.push(req.body.nextitem);
+//   responce.redirect("/work");
+// })
